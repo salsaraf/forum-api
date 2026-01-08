@@ -1,4 +1,4 @@
-name: Continuous Deployment
+name: CD to Railway
 
 on:
   push:
@@ -8,20 +8,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
+      
       - name: Install Railway CLI
-        run: npm i -g @railway/cli
-
-      - name: Deploy to Railway
+        run: npm install -g @railway/cli@2.0.21  # Gunakan versi lama yang support --token
+      
+      - name: Deploy
         run: |
           railway login --token ${{ secrets.RAILWAY_TOKEN }}
           railway up --service forum-api --detach
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
