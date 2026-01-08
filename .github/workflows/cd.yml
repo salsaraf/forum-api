@@ -1,20 +1,22 @@
-name: CD to Railway
+name: Continuous Deployment
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Install Railway CLI
-        run: npm install -g @railway/cli@2.0.21  # Gunakan versi lama yang support --token
-      
-      - name: Deploy
-        run: |
-          railway login --token ${{ secrets.RAILWAY_TOKEN }}
-          railway up --service forum-api --detach
+        run: npm install -g @railway/cli
+
+      - name: Deploy to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --service auth-api
