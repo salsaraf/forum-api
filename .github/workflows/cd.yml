@@ -22,6 +22,6 @@ jobs:
       - name: Deploy to Railway
         run: |
           railway login --token ${{ secrets.RAILWAY_TOKEN }}
-          railway up --service auth-api --detach
+          railway up --service forum-api --detach
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
