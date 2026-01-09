@@ -10,7 +10,13 @@ const replies = require('../../Interfaces/http/api/replies');
 
 const createServer = async (container) => {
   const server = Hapi.server({
+    host: '0.0.0.0',
     port: process.env.PORT || 3000,
+    routes: {
+      cors: {
+        origin: ['*'],
+      }
+    }
   });
 
   await server.register(Jwt);
