@@ -8,7 +8,7 @@ describe('DeleteReplyUseCase', () => {
     const owner = 'user-123';
 
     const mockThreadRepository = {
-      verifyThreadAvailable: jest.fn().mockResolvedValue(),
+      verifyThreadAvailability: jest.fn().mockResolvedValue(),
     };
 
     const mockCommentRepository = {
@@ -31,7 +31,7 @@ describe('DeleteReplyUseCase', () => {
       threadId, commentId, replyId, owner,
     });
 
-    expect(mockThreadRepository.verifyThreadAvailable).toBeCalledWith(threadId);
+    expect(mockThreadRepository.verifyThreadAvailability).toBeCalledWith(threadId);
     expect(mockCommentRepository.verifyCommentInThread).toBeCalledWith(commentId, threadId);
     expect(mockReplyRepository.verifyReplyInComment).toBeCalledWith(replyId, commentId);
     expect(mockReplyRepository.verifyReplyOwner).toBeCalledWith(replyId, owner);

@@ -9,7 +9,7 @@ describe('AddCommentUseCase', () => {
     const threadId = 'thread-123';
 
     const mockThreadRepository = {
-      verifyThreadAvailable: jest.fn().mockResolvedValue(),
+      verifyThreadAvailability: jest.fn().mockResolvedValue(),
     };
 
     const mockCommentRepository = {
@@ -27,7 +27,7 @@ describe('AddCommentUseCase', () => {
 
     const addedComment = await addCommentUseCase.execute(credentialId, threadId, useCasePayload);
 
-    expect(mockThreadRepository.verifyThreadAvailable).toHaveBeenCalledWith(threadId);
+    expect(mockThreadRepository.verifyThreadAvailability).toHaveBeenCalledWith(threadId);
     expect(mockCommentRepository.addComment).toHaveBeenCalledWith(
       threadId,
       credentialId,

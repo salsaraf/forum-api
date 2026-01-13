@@ -10,7 +10,7 @@ describe('AddReplyUseCase', () => {
     const owner = 'user-123';
 
     const mockThreadRepository = {
-      verifyThreadAvailable: jest.fn().mockResolvedValue(),
+      verifyThreadAvailability: jest.fn().mockResolvedValue(),
     };
 
     const mockCommentRepository = {
@@ -35,7 +35,7 @@ describe('AddReplyUseCase', () => {
       threadId, commentId, owner, payload,
     });
 
-    expect(mockThreadRepository.verifyThreadAvailable).toBeCalledWith(threadId);
+    expect(mockThreadRepository.verifyThreadAvailability).toBeCalledWith(threadId);
     expect(mockCommentRepository.verifyCommentInThread).toBeCalledWith(commentId, threadId);
     expect(mockReplyRepository.addReply).toBeCalledWith(commentId, owner, new NewReply(payload));
     expect(result).toStrictEqual(new AddedReply({
