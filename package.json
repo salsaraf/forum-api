@@ -11,7 +11,7 @@
     "test:watch": "jest --watchAll --coverage --setupFiles dotenv/config -i",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "migrate": "node-pg-migrate",
+    "migrate": "node-pg-migrate up",
     "migrate:test": "node-pg-migrate up -f config/database/test.json"
   },
   "keywords": [],
