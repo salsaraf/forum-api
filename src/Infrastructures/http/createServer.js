@@ -10,8 +10,13 @@ const replies = require('../../Interfaces/http/api/replies');
 
 const createServer = async (container) => {
   const server = Hapi.server({
-    host: process.env.HOST,
-    port: process.env.PORT,
+    host: '0.0.0.0',
+    port: process.env.PORT || 5000,
+    routes: {
+      cors: {
+        origin: ['*'],
+      }
+    }
   });
 
   await server.register(Jwt);
@@ -54,6 +59,14 @@ const createServer = async (container) => {
       options: { container },
     },
   ]);
+
+  server.route({
+    method: 'GET',
+    path: '/',
+    handler: () => ({
+      value: 'Hello world!',
+    }),
+  });
 
   server.ext('onPreResponse', (request, h) => {
     // mendapatkan konteks response dari request
