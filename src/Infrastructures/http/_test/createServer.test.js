@@ -1,18 +1,7 @@
-import pool from '../../database/postgres/pool';
-import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper';
-
 const createServer = require('../createServer');
 const container = require('../../container');
 
 describe('HTTP server', () => {
-  afterAll(async () => {
-    await pool.end();
-  });
-
-  afterEach(async () => {
-    await UsersTableTestHelper.cleanTable();
-  });
-
   it('should response 404 when request unregistered route', async () => {
     // Arrange
     const server = await createServer(container);
@@ -25,23 +14,6 @@ describe('HTTP server', () => {
 
     // Assert
     expect(response.statusCode).toEqual(404);
-  });
-
-  it('should return 200 and hello world', async () => {
-    // Arrange
-    const server = await createServer({});
-
-    // Action
-    const response = await server.inject({
-      method: 'GET',
-      url: '/',
-    });
-
-    // Assert
-    const responseJson = JSON.parse(response.payload);
-
-    expect(response.statusCode).toEqual(200);
-    expect(responseJson.value).toEqual('Hello world!');
   });
 
   it('should handle server error correctly', async () => {
@@ -65,5 +37,21 @@ describe('HTTP server', () => {
     expect(response.statusCode).toEqual(500);
     expect(responseJson.status).toEqual('error');
     expect(responseJson.message).toEqual('terjadi kegagalan pada server kami');
+  });
+
+  it('should return 200 and hello world', async () => {
+    // Arrange
+    const server = await createServer({});
+
+    // Action
+    const response = await server.inject({
+      method: 'GET',
+      url: '/',
+    });
+
+    // Assert
+    const responseJson = JSON.parse(response.payload);
+    expect(response.statusCode).toEqual(200);
+    expect(responseJson.value).toEqual('Hello world!');
   });
 });
