@@ -7,7 +7,7 @@ describe('DeleteCommentUseCase', () => {
     const commentId = 'comment-123';
 
     const mockThreadRepository = {
-      verifyThreadAvailable: jest.fn().mockResolvedValue(),
+      verifyThreadAvailability: jest.fn().mockResolvedValue(),
     };
 
     const mockCommentRepository = {
@@ -24,7 +24,7 @@ describe('DeleteCommentUseCase', () => {
 
     await deleteCommentUseCase.execute(credentialId, threadId, commentId);
 
-    expect(mockThreadRepository.verifyThreadAvailable).toBeCalledWith(threadId);
+    expect(mockThreadRepository.verifyThreadAvailability).toBeCalledWith(threadId);
     expect(mockCommentRepository.verifyCommentAvailable).toBeCalledWith(commentId);
     expect(mockCommentRepository.verifyCommentInThread).toBeCalledWith(commentId, threadId);
     expect(mockCommentRepository.verifyCommentOwner).toBeCalledWith(commentId, credentialId);

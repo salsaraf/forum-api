@@ -13,7 +13,7 @@ class AddReplyUseCase {
   }) {
     const newReply = new NewReply(payload);
 
-    await this._threadRepository.verifyThreadAvailable(threadId);
+    await this._threadRepository.verifyThreadAvailability(threadId);
     await this._commentRepository.verifyCommentInThread(commentId, threadId);
 
     const added = await this._replyRepository.addReply(commentId, owner, newReply);

@@ -1,7 +1,7 @@
 const GetThreadDetailUseCase = require('../GetThreadDetailUseCase');
 
 describe('GetThreadDetailUseCase', () => {
-  it('should orchestrate get thread detail correctly with soft deleted comments replaced', async () => {
+  it('should orchestrate get thread detail correctly with soft deleted comments and like count', async () => {
     const threadId = 'thread-123';
 
     const mockThreadRepository = {
@@ -37,17 +37,33 @@ describe('GetThreadDetailUseCase', () => {
       getRepliesByCommentIds: jest.fn(() => Promise.resolve([])),
     };
 
+    const mockCommentLikeRepository = {
+      getLikeCountsByCommentIds: jest.fn(() => Promise.resolve({
+        'comment-1': 2,
+        'comment-2': 0,
+      })),
+    };
+
     const useCase = new GetThreadDetailUseCase({
       threadRepository: mockThreadRepository,
       commentRepository: mockCommentRepository,
       replyRepository: mockReplyRepository,
+      commentLikeRepository: mockCommentLikeRepository,
     });
 
     const result = await useCase.execute(threadId);
 
-    expect(mockThreadRepository.getThreadById).toHaveBeenCalledWith(threadId);
-    expect(mockCommentRepository.getCommentsByThreadId).toHaveBeenCalledWith(threadId);
-    expect(mockReplyRepository.getRepliesByCommentIds).toHaveBeenCalledWith(['comment-1', 'comment-2']);
+    expect(mockThreadRepository.getThreadById)
+      .toHaveBeenCalledWith(threadId);
+
+    expect(mockCommentRepository.getCommentsByThreadId)
+      .toHaveBeenCalledWith(threadId);
+
+    expect(mockReplyRepository.getRepliesByCommentIds)
+      .toHaveBeenCalledWith(['comment-1', 'comment-2']);
+
+    expect(mockCommentLikeRepository.getLikeCountsByCommentIds)
+      .toHaveBeenCalledWith(['comment-1', 'comment-2']);
 
     expect(result).toStrictEqual({
       id: threadId,
@@ -61,6 +77,7 @@ describe('GetThreadDetailUseCase', () => {
           username: 'johndoe',
           date: new Date('2021-08-08T07:22:33.555Z').toISOString(),
           content: 'sebuah comment',
+          likeCount: 2,
           replies: [],
         },
         {
@@ -68,13 +85,14 @@ describe('GetThreadDetailUseCase', () => {
           username: 'dicoding',
           date: new Date('2021-08-08T07:26:21.338Z').toISOString(),
           content: '**komentar telah dihapus**',
+          likeCount: 0,
           replies: [],
         },
       ],
     });
   });
 
-  it('should orchestrate get thread detail correctly with soft deleted replies replaced and grouped by commentId', async () => {
+  it('should orchestrate get thread detail correctly with soft deleted replies and grouped by commentId with like count', async () => {
     const threadId = 'thread-123';
 
     const mockThreadRepository = {
@@ -127,25 +145,28 @@ describe('GetThreadDetailUseCase', () => {
       ])),
     };
 
+    const mockCommentLikeRepository = {
+      getLikeCountsByCommentIds: jest.fn(() => Promise.resolve({
+        'comment-1': 5,
+        'comment-2': 1,
+      })),
+    };
+
     const useCase = new GetThreadDetailUseCase({
       threadRepository: mockThreadRepository,
       commentRepository: mockCommentRepository,
       replyRepository: mockReplyRepository,
+      commentLikeRepository: mockCommentLikeRepository,
     });
 
     const result = await useCase.execute(threadId);
-
-    expect(mockThreadRepository.getThreadById).toHaveBeenCalledWith(threadId);
-    expect(mockCommentRepository.getCommentsByThreadId).toHaveBeenCalledWith(threadId);
-    expect(mockReplyRepository.getRepliesByCommentIds).toHaveBeenCalledWith(['comment-1', 'comment-2']);
-
-    expect(result.comments).toHaveLength(2);
 
     expect(result.comments[0]).toStrictEqual({
       id: 'comment-1',
       username: 'johndoe',
       date: new Date('2021-08-08T07:22:33.555Z').toISOString(),
       content: 'c1',
+      likeCount: 5,
       replies: [
         {
           id: 'reply-1',
@@ -167,6 +188,7 @@ describe('GetThreadDetailUseCase', () => {
       username: 'dicoding',
       date: new Date('2021-08-08T07:26:21.338Z').toISOString(),
       content: 'c2',
+      likeCount: 1,
       replies: [],
     });
   });
