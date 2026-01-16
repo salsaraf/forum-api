@@ -1,6 +1,5 @@
 FROM node:18-alpine
 
-# Install nginx
 RUN apk add --no-cache nginx
 
 WORKDIR /app
@@ -10,7 +9,6 @@ RUN npm install --omit=dev
 
 COPY . .
 
-# Copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
 
 ENV NODE_ENV=production
