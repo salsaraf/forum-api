@@ -1,28 +1,28 @@
 worker_processes 1;
 
 events {
-    worker_connections 1024;
+  worker_connections 1024;
 }
 
 http {
-    limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=90r/m;
+  limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=90r/m;
 
-    server {
-        listen ${PORT};
+  server {
+    listen ${PORT};
 
-        location /threads {
-            limit_req zone=threads_limit burst=0;
-            limit_req_status 429;
+    location /threads {
+      limit_req zone=threads_limit burst=0;
+      limit_req_status 429;
 
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-            proxy_pass http://127.0.0.1:5000;
-        }
-
-        location / {
-            proxy_pass http://127.0.0.1:5000;
-        }
+      proxy_pass http://127.0.0.1:5000;
     }
+
+    location / {
+      proxy_pass http://127.0.0.1:5000;
+    }
+  }
 }
