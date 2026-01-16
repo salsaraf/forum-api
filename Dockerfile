@@ -22,4 +22,4 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/
 EXPOSE 8080
 
 # Jalankan node dan nginx secara bersamaan
-CMD sh -c "node src/app.js & sleep 5 && nginx -g 'daemon off;'
+CMD sh -c "node src/app.js & nginx -g 'daemon off;'"

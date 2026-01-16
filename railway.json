@@ -4,7 +4,6 @@
     "builder": "DOCKERFILE"
   },
   "deploy": {
-    "port": 8080,
     "healthcheckPath": "/"
   }
 }
