@@ -1,23 +1,17 @@
 FROM node:18-alpine
 
-# Install nginx
-RUN apk add --no-cache nginx
+RUN apk add --no-cache nginx gettext
 
-# Buat folder kerja
 WORKDIR /app
 
-# Install dependencies node
 COPY package*.json ./
 RUN npm install --omit=dev
 
-# Copy source code
 COPY . .
 
-# Copy nginx config
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copy nginx template
+COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template
 
-# Expose nginx port
-EXPOSE 80
+EXPOSE 8080
 
-# Jalankan nginx + node
-CMD sh -c "nginx && node src/app.js"
+CMD sh -c "envsubst '\$PORT' < /etc/nginx/templates/nginx.conf.template > /etc/nginx/nginx.conf && nginx && node src/app.js"
