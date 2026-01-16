@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node src/app.js",
     "start:dev": "nodemon src/app.js",
+    "start:nginx": "nginx -c /etc/nginx/nginx.conf",
+    "docker:build": "docker build -t forum-api-nginx .",
+    "docker:run": "docker run -p 8080:8080 --env-file .env forum-api-nginx",
     "test": "jest --setupFiles dotenv/config -i",
     "test:watch:change": "jest --watch --setupFiles dotenv/config -i",
     "test:watch": "jest --watchAll --coverage --setupFiles dotenv/config -i",
