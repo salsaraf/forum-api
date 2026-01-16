@@ -20,3 +20,4 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: railway up --service forum-api
+        timeout-minutes: 10
