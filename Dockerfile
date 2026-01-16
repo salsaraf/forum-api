@@ -3,21 +3,21 @@ FROM node:18-alpine
 # Install nginx
 RUN apk add --no-cache nginx
 
-# Set working directory
+# Buat folder kerja
 WORKDIR /app
 
-# Copy node files
+# Install dependencies node
 COPY package*.json ./
 RUN npm install --omit=dev
 
+# Copy source code
 COPY . .
 
 # Copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose PORT dari Railway
-ENV NODE_ENV=production
-ENV PORT=8080
+# Expose nginx port
+EXPOSE 80
 
-# Start both nginx & node
-CMD sh -c "node src/app.js & nginx -g 'daemon off;'"
+# Jalankan nginx + node
+CMD sh -c "nginx && node src/app.js"
