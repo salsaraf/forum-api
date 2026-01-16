@@ -1,0 +1,19 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    container_name: forum-api-backend
+    env_file:
+      - .env
+    expose:
+      - "5000"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx.Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
