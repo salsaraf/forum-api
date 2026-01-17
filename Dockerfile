@@ -14,5 +14,6 @@ EXPOSE 8080
 
 CMD sh -c "\
   envsubst '\$PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
-  nginx && \
-  node src/app.js"
+  node src/app.js & \
+  nginx -g 'daemon off;'"
+
