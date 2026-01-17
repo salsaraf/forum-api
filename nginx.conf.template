@@ -5,10 +5,13 @@ events {
 }
 
 http {
-  limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=10r/m;
+  error_log /dev/stderr notice;
+  access_log /dev/stdout;
+
+  limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=90r/m;
 
   server {
-    listen ${PORT};  # 🔥 INI KUNCI UTAMA
+    listen ${PORT};
 
     location = /threads {
       limit_req zone=threads_limit burst=0;
