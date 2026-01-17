@@ -8,7 +8,7 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 COPY . .
-COPY nginx.conf.template /etc/nginx/nginx.conf.template
+COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 3000
 
