@@ -14,7 +14,7 @@ http {
   # =========================
   # RATE LIMIT CONFIG
   # =========================
-  limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=5r/m;
+  limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=90r/m;
 
   server {
     listen ${PORT};
@@ -23,7 +23,7 @@ http {
     # RATE LIMITED ENDPOINT
     # =========================
     location = /threads {
-      limit_req zone=threads_limit burst=1 nodelay;
+      limit_req zone=threads_limit;
       limit_req_status 429;
 
       proxy_set_header Host $host;
