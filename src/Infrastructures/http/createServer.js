@@ -12,7 +12,7 @@ const likes = require('../../Interfaces/http/api/likes');
 const createServer = async (container) => {
   const server = Hapi.server({
     host: '0.0.0.0',
-    port: process.env.INTERNAL_PORT || 5000,
+    port: process.env.PORT,
     routes: {
       cors: {
         origin: ['*'],

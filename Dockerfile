@@ -9,13 +9,12 @@ RUN npm install --omit=dev
 
 COPY . .
 
-# nginx template
-COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template
+COPY nginx.conf.template /etc/nginx/nginx.conf.template
 
 EXPOSE 8080
 
 CMD sh -c "\
-  envsubst '\$PORT' < /etc/nginx/templates/nginx.conf.template > /etc/nginx/nginx.conf && \
+  envsubst '\$PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
   node src/app.js & \
   nginx -g 'daemon off;' \
 "
