@@ -5,13 +5,13 @@ events {
 }
 
 http {
-  limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=90r/m;
+  limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=10r/m;
 
   server {
-    listen 8080;
+    listen ${PORT};  # 🔥 INI KUNCI UTAMA
 
     location = /threads {
-      limit_req zone=threads_limit;
+      limit_req zone=threads_limit burst=0;
       limit_req_status 429;
 
       proxy_set_header Host $host;
