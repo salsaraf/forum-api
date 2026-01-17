@@ -14,7 +14,8 @@ http {
   # =========================
   # RATE LIMIT CONFIG
   # =========================
-  limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=90r/m;
+  # limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=90r/m;
+  limit_req_zone $http_authorization zone=threads_limit:10m rate=90r/m;
 
   server {
     listen ${PORT};
