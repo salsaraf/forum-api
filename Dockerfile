@@ -8,8 +8,6 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 COPY . .
-
-# nginx template
 COPY nginx.conf /etc/nginx/nginx.conf.template
 
 CMD sh -c "\
