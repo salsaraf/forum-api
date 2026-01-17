@@ -16,4 +16,3 @@ CMD sh -c "\
   envsubst '\$PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
   node src/app.js & \
   nginx -g 'daemon off;'"
-
