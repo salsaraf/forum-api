@@ -11,7 +11,7 @@ http {
     listen ${PORT};
 
     location ^~ /threads {
-      limit_req zone=threads_limit burst=0 nodelay;
+      limit_req zone=threads_limit;
       limit_req_status 429;
 
       proxy_set_header Host $host;
