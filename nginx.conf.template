@@ -10,7 +10,7 @@ http {
   server {
     listen ${PORT};
 
-    location /threads {
+    location = /threads {
       limit_req zone=threads_limit burst=0;
       limit_req_status 429;
 
