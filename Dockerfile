@@ -8,9 +8,9 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 COPY . .
-COPY nginx.conf /etc/nginx/nginx.conf.template
 
-EXPOSE 8080
+# nginx template
+COPY nginx.conf /etc/nginx/nginx.conf.template
 
 CMD sh -c "\
   envsubst '\$PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
