@@ -11,10 +11,10 @@ COPY . .
 
 COPY nginx.conf.template /etc/nginx/nginx.conf.template
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD sh -c "\
   envsubst '\$PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
-  node src/app.js > /var/log/node.log 2>&1 & \
-  nginx -g 'daemon off;' \
+  nginx && \
+  node src/app.js \
 "
