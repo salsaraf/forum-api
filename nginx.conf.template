@@ -5,7 +5,7 @@ events {
 }
 
 http {
-  limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=90r/m;
+  limit_req_zone $binary_remote_addr zone=threads_limit:10m rate=10r/m;
 
   server {
     listen ${PORT};
@@ -18,11 +18,11 @@ http {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-      proxy_pass http://127.0.0.1:${PORT};
+      proxy_pass http://127.0.0.1:3000;
     }
 
     location / {
-      proxy_pass http://127.0.0.1:${PORT};
+      proxy_pass http://127.0.0.1:3000;
     }
   }
 }
