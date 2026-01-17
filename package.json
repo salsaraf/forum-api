@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/app.js",
     "start:dev": "nodemon src/app.js",
     "start:nginx": "nginx -c /etc/nginx/nginx.conf",
     "docker:build": "docker build -t forum-api-nginx .",
